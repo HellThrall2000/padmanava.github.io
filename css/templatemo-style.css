@@ -665,7 +665,7 @@ ul {
     padding: 0px 120px;
   }
   .project-item img {
-    max-width: 100%;
+    max-width: 90%;
   }
   .projects-content .heading {
     padding-top: 25%;
@@ -674,8 +674,8 @@ ul {
     margin: 0;
     width: 100%;
   }
-  .projects-content .text-content {
-    display: 50%;
+  .projects-content .text-content {	  
+    display: 10%;
   }
   .contact-content .more-info {
     padding: 30px;
