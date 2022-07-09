@@ -674,7 +674,8 @@ ul {
     margin: 0;
     width: 100%;
   }
-  .projects-content .text-content {	  
+  .projects-content .text-content {
+    width: 80%;
     display: block;
   }
   .contact-content .more-info {
