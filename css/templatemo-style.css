@@ -671,8 +671,10 @@ ul {
     padding-top: 25%;
   }
   .projects-content .owl-carousel {
-    margin: 0;
     width: 100%;
+    margin: 10px;
+    padding: 10px;
+    
   }
   .projects-content .text-content {
     width: 80%;
