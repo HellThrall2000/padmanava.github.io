@@ -672,7 +672,7 @@ ul {
   }
   .projects-content .owl-carousel {
     width: 100%; 
-    
+    margin: 0px;
   }
   .projects-content .text-content {
     display: block;
