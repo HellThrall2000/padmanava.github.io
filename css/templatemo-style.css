@@ -675,8 +675,10 @@ ul {
     margin-left: 10px;
   }
   .projects-content .text-content {
+    width: 80%;
     display: block;
-  }
+     
+	}
   .contact-content .more-info {
     padding: 30px;
     margin-top: 0px;
