@@ -675,7 +675,7 @@ ul {
     width: 100%;
   }
   .projects-content .text-content {	  
-    display: 10%;
+    display: block;
   }
   .contact-content .more-info {
     padding: 30px;
