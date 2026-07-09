@@ -6,6 +6,110 @@
     <title>Padmanava Pal | Know Me</title>
     <script type="module" crossorigin src="/assets/main-CLln6rbu.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/main-B1ToBFSf.css">
+    <style>
+      /* --- Card expand / modal system --- */
+
+      .project-card[data-expandable] p,
+      .feed-post[data-expandable] .post-content p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .project-card[data-expandable],
+      .feed-post[data-expandable] {
+        cursor: pointer;
+        transition: border-color .18s, transform .25s cubic-bezier(.22,1,.36,1), background .18s, box-shadow .3s cubic-bezier(.22,1,.36,1);
+      }
+      .project-card[data-expandable]:hover,
+      .feed-post[data-expandable]:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      }
+
+      .card-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity .25s ease;
+      }
+      .card-modal.is-open {
+        display: flex;
+        opacity: 1;
+      }
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,.72);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+      .modal-container {
+        position: relative;
+        z-index: 1;
+        background: var(--steel-surface);
+        border: 1px solid #6f8fa966;
+        border-radius: 16px;
+        max-width: 780px;
+        width: 90vw;
+        max-height: 82vh;
+        overflow-y: auto;
+        padding: 2rem 2rem 2.5rem;
+        transform: translateY(24px) scale(.97);
+        transition: transform .3s cubic-bezier(.22,1,.36,1);
+      }
+      .card-modal.is-open .modal-container {
+        transform: translateY(0) scale(1);
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .modal-header h2 {
+        margin: 0;
+        font-size: 1.6rem;
+      }
+      .modal-close {
+        background: none;
+        border: 1px solid #6f8fa933;
+        border-radius: 8px;
+        color: var(--text-muted);
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: color .15s, border-color .15s, background .15s;
+        flex-shrink: 0;
+      }
+      .modal-close:hover {
+        color: var(--text-main);
+        border-color: #6f8fa9b8;
+        background: #6f8fa91f;
+      }
+      .modal-body {
+        color: var(--text-muted);
+        line-height: 1.7;
+        font-size: 1.05rem;
+      }
+      .modal-body p { margin: 0 0 1rem; color: inherit; }
+      .modal-body p:last-child { margin-bottom: 0; }
+      .modal-body .tech-stack { margin-top: 1.25rem; }
+
+      @media (width <= 560px) {
+        .modal-container { padding: 1.25rem; width: 95vw; }
+        .modal-header h2 { font-size: 1.3rem; }
+      }
+    </style>
   </head>
   <body>
     <canvas id="webgl-canvas" aria-hidden="true"></canvas>
@@ -35,7 +139,7 @@
 
       <section class="feed" aria-label="Personal feed">
 
-        <article class="feed-post reveal">
+        <article class="feed-post reveal" data-expandable>
           <div class="post-image" aria-hidden="true" style="background-image: linear-gradient(135deg, rgba(111,143,169,0.08) 0%, rgba(111,143,169,0.02) 100%);">
             <div class="post-image-placeholder">
               <span></span><span></span><span></span>
@@ -48,10 +152,26 @@
               Benchmarks and photos from the latest PC build — motherboard troubleshooting,
               thermal tuning, and the satisfaction of a stable POST screen.
             </p>
+            <div class="full-content" hidden>
+              <p>
+                Benchmarks and photos from the latest PC build — motherboard troubleshooting,
+                thermal tuning, and the satisfaction of a stable POST screen. This build
+                features a custom water loop with a 360mm radiator, push-pull fan config,
+                and carefully managed cable routing. The system posts stable at 5.2 GHz
+                all-core with a 1.28V undervolt.
+              </p>
+              <p>
+                Initial Cinebench R23 scores hit 28,500 multi-core, with peak temps
+                staying under 78°C after an hour of sustained load. The curve optimizer
+                was tuned per-core to balance thermals and clock consistency. Memory
+                timing tweaks on the DDR5 kit yielded a 4% latency improvement over XMP
+                defaults.
+              </p>
+            </div>
           </div>
         </article>
 
-        <article class="feed-post reveal" data-delay="1">
+        <article class="feed-post reveal" data-delay="1" data-expandable>
           <div class="post-image" aria-hidden="true" style="background-image: linear-gradient(135deg, rgba(111,143,169,0.08) 0%, rgba(111,143,169,0.02) 100%);">
             <div class="post-image-placeholder">
               <span></span><span></span><span></span>
@@ -64,10 +184,30 @@
               Spent an afternoon tuning frame pacing and input latency in Black Myth:
               Wukong. The difference a well-curved fan profile makes under sustained load.
             </p>
+            <div class="full-content" hidden>
+              <p>
+                Spent an afternoon tuning frame pacing and input latency in Black Myth:
+                Wukong. The difference a well-curved fan profile makes under sustained load
+                is remarkable — GPU hotspot dropped 11°C while maintaining boost clocks
+                within 25 MHz of the thermal limit.
+              </p>
+              <p>
+                Used FrameView and PresentMon to capture 1% and 0.1% lows before and after
+                tuning. The stock fan curve let the GPU hit 84°C before ramping, causing
+                visible stutter every 30-40 seconds. After a custom curve that pre-emptively
+                ramps at 65°C, those micro-stutters disappeared entirely. Average frame
+                time went from 16.8ms to 14.2ms with tighter variance.
+              </p>
+              <p>
+                Also experimented with GPU driver scheduling and Reflex Low Latency mode.
+                Reflex gave a consistent 8-10ms reduction in system latency at 4K DLSS
+                Quality, though the improvement was less noticeable at lower resolutions.
+              </p>
+            </div>
           </div>
         </article>
 
-        <article class="feed-post reveal" data-delay="2">
+        <article class="feed-post reveal" data-delay="2" data-expandable>
           <div class="post-image" aria-hidden="true" style="background-image: linear-gradient(135deg, rgba(111,143,169,0.08) 0%, rgba(111,143,169,0.02) 100%);">
             <div class="post-image-placeholder">
               <span></span><span></span><span></span>
@@ -80,10 +220,30 @@
               Tracking down a capacitor-level issue on an older motherboard. Multimeter,
               schematic, and a lot of patience. Detailed the diagnosis process end-to-end.
             </p>
+            <div class="full-content" hidden>
+              <p>
+                Tracking down a capacitor-level issue on an older motherboard. Multimeter,
+                schematic, and a lot of patience. The board would power on for roughly
+                3 seconds, then cut power and restart — a classic boot loop with no POST
+                code visible.
+              </p>
+              <p>
+                Started with the PSU — swapped in a known-good unit, same behaviour. Pulled
+                the board and inspected the VRM area under magnification. Found a bulging
+                330 µF capacitor near the CPU socket that wasn't obvious to the naked eye.
+                ESR measured at 18 ohms vs the expected 0.2 ohms.
+              </p>
+              <p>
+                Replaced the cap with a matching low-ESR Nichicon from the parts bin, and
+                the board POSTed first try. The full diagnosis process — from symptom
+                observation to component-level repair — took about three hours and is a
+                good reference for anyone dealing with similar issues on that chipset.
+              </p>
+            </div>
           </div>
         </article>
 
-        <article class="feed-post reveal" data-delay="3">
+        <article class="feed-post reveal" data-delay="3" data-expandable>
           <div class="post-image" aria-hidden="true" style="background-image: linear-gradient(135deg, rgba(111,143,169,0.08) 0%, rgba(111,143,169,0.02) 100%);">
             <div class="post-image-placeholder">
               <span></span><span></span><span></span>
@@ -96,10 +256,32 @@
               Re-cased the daily driver — mapped airflow with thermocouples and tweaked
               the fan curve until noise and thermals settled into a happy medium.
             </p>
+            <div class="full-content" hidden>
+              <p>
+                Re-cased the daily driver — mapped airflow with thermocouples and tweaked
+                the fan curve until noise and thermals settled into a happy medium. The
+                new case supports a bottom-to-top airflow layout with filtered intakes,
+                which reduced dust accumulation by roughly 60% compared to the previous
+                front-intake configuration.
+              </p>
+              <p>
+                Placed K-type thermocouples at six points: GPU intake, CPU socket area,
+                rear exhaust, top rad exhaust, PSU intake, and ambient. Recorded temps
+                under idle, gaming, and full synthetic load. The biggest improvement came
+                from adding a bottom intake fan directly under the GPU — dropped VRAM
+                temps by 8°C under load.
+              </p>
+              <p>
+                The fan curve was tuned to be silent at idle (below 40°C) and ramp
+                linearly between 50°C and 75°C. At full load the system is audible but
+                not intrusive — measured 38 dBA at 1 metre, down from 44 dBA in the old
+                case.
+              </p>
+            </div>
           </div>
         </article>
 
-        <article class="feed-post reveal" data-delay="4">
+        <article class="feed-post reveal" data-delay="4" data-expandable>
           <div class="post-image" aria-hidden="true" style="background-image: linear-gradient(135deg, rgba(111,143,169,0.08) 0%, rgba(111,143,169,0.02) 100%);">
             <div class="post-image-placeholder">
               <span></span><span></span><span></span>
@@ -113,6 +295,28 @@
               isolation. The hardware is modest, but the learning curve is steep and
               rewarding.
             </p>
+            <div class="full-content" hidden>
+              <p>
+                Spun up a small Proxmox node to test containerised agent workflows in
+                isolation. The hardware is modest — a Lenovo M720q Tiny with a 6-core
+                i5, 32 GB of RAM, and a 500 GB NVMe — but it's been a great platform for
+                learning container orchestration and network isolation.
+              </p>
+              <p>
+                Currently running three LXC containers: one for a lightweight Docker
+                registry, one for a test LangGraph agent that coordinates local LLM calls,
+                and one for a Prometheus + Grafana stack monitoring the node itself. The
+                agent container communicates with the LLM via a REST API exposed through a
+                VLAN, keeping the inference traffic isolated from the management network.
+              </p>
+              <p>
+                The biggest lesson so far has been around resource limits — an unbound
+                agent process can easily OOM a 32 GB host when running multi-step
+                reasoning chains. Implementing cgroup memory limits and request timeouts
+                was essential for stability. Next steps: setting up a proper CI/CD pipeline
+                with GitLab Runner in a privileged container.
+              </p>
+            </div>
           </div>
         </article>
 
@@ -139,5 +343,68 @@
       </div>
     </footer>
 
+  <!-- Card expand modal -->
+    <div id="card-modal" class="card-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 class="modal-title"></h2>
+          <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body"></div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var modal = document.getElementById('card-modal');
+        if (!modal) return;
+        var titleEl = modal.querySelector('.modal-title');
+        var bodyEl = modal.querySelector('.modal-body');
+        var closeBtn = modal.querySelector('.modal-close');
+        var backdrop = modal.querySelector('.modal-backdrop');
+
+        function openModal(title, html) {
+          titleEl.textContent = title;
+          bodyEl.innerHTML = html;
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          closeBtn.focus();
+        }
+
+        function closeModal() {
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        backdrop.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') closeModal();
+        });
+
+        modal.addEventListener('keydown', function(e) {
+          if (e.key !== 'Tab') return;
+          var focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          if (!focusable.length) return;
+          var first = focusable[0];
+          var last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
+
+        document.querySelectorAll('[data-expandable]').forEach(function(card) {
+          card.addEventListener('click', function(e) {
+            if (e.target.closest('a, button, .project-link')) return;
+            var title = (this.querySelector('h2') || {}).textContent || '';
+            var full = this.querySelector('.full-content');
+            var html = full ? full.innerHTML : (this.querySelector('p') || {}).innerHTML || '';
+            openModal(title, html);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

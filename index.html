@@ -6,6 +6,113 @@
     <title>Padmanava Pal | Systems Portfolio</title>
     <script type="module" crossorigin src="/assets/main-CLln6rbu.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/main-B1ToBFSf.css">
+    <style>
+      /* --- Card expand / modal system --- */
+
+      /* Truncate card body text to 3 lines */
+      .project-card[data-expandable] p,
+      .feed-post[data-expandable] .post-content p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      /* When the card is too short, still show the teaser */
+      .project-card[data-expandable],
+      .feed-post[data-expandable] {
+        cursor: pointer;
+        transition: border-color .18s, transform .25s cubic-bezier(.22,1,.36,1), background .18s, box-shadow .3s cubic-bezier(.22,1,.36,1);
+      }
+      .project-card[data-expandable]:hover,
+      .feed-post[data-expandable]:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 40px rgba(0,0,0,.35);
+      }
+
+      /* Modal overlay */
+      .card-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity .25s ease;
+      }
+      .card-modal.is-open {
+        display: flex;
+        opacity: 1;
+      }
+      .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,.72);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+      .modal-container {
+        position: relative;
+        z-index: 1;
+        background: var(--steel-surface);
+        border: 1px solid #6f8fa966;
+        border-radius: 16px;
+        max-width: 780px;
+        width: 90vw;
+        max-height: 82vh;
+        overflow-y: auto;
+        padding: 2rem 2rem 2.5rem;
+        transform: translateY(24px) scale(.97);
+        transition: transform .3s cubic-bezier(.22,1,.36,1);
+      }
+      .card-modal.is-open .modal-container {
+        transform: translateY(0) scale(1);
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .modal-header h2 {
+        margin: 0;
+        font-size: 1.6rem;
+      }
+      .modal-close {
+        background: none;
+        border: 1px solid #6f8fa933;
+        border-radius: 8px;
+        color: var(--text-muted);
+        width: 2.25rem;
+        height: 2.25rem;
+        font-size: 1.3rem;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: color .15s, border-color .15s, background .15s;
+        flex-shrink: 0;
+      }
+      .modal-close:hover {
+        color: var(--text-main);
+        border-color: #6f8fa9b8;
+        background: #6f8fa91f;
+      }
+      .modal-body {
+        color: var(--text-muted);
+        line-height: 1.7;
+        font-size: 1.05rem;
+      }
+      .modal-body p { margin: 0 0 1rem; color: inherit; }
+      .modal-body p:last-child { margin-bottom: 0; }
+      .modal-body .tech-stack { margin-top: 1.25rem; }
+
+      @media (width <= 560px) {
+        .modal-container { padding: 1.25rem; width: 95vw; }
+        .modal-header h2 { font-size: 1.3rem; }
+      }
+    </style>
   </head>
   <body>
     <canvas id="webgl-canvas" aria-hidden="true"></canvas>
@@ -28,7 +135,7 @@
         <div class="profile-frame">
           <img
             class="profile-image"
-            src="/img/mydp.jpeg"
+            src="/img/mydp.png"
             alt="Portrait of Padmanava Pal"
           />
         </div>
@@ -56,15 +163,15 @@
           <h2 id="work-title">Currently working on.</h2>
         </div>
 
-        <article class="project-card featured-project reveal" data-delay="1">
+        <article class="project-card featured-project reveal" data-delay="1" data-expandable>
           <div class="project-meta">
             <span class="project-type">Agent platform</span>
             <span>Active concept</span>
           </div>
           <h2>init-store.tech &mdash; AI Agent Marketplace</h2>
           <div class="tech-stack" aria-label="Technology stack">
-            <span class="tech-pill">LangGraph</span>
-            <span class="tech-pill">LangChain</span>
+            <span class="tech-pill">Golang</span>
+            <span class="tech-pill"></span>
             <span class="tech-pill">Local LLMs</span>
           </div>
           <p>
@@ -73,6 +180,34 @@
             boundaries, inspectable state transitions, and scalable deployment paths for
             backend AI services.
           </p>
+          <div class="full-content" hidden>
+            <p>
+              A modular marketplace architecture for enterprise AI agents built on LangGraph
+              and LangChain, designed for local LLM execution with multi-step agentic
+              workflows. The system emphasises clear tool boundaries, inspectable state
+              transitions, and scalable deployment paths for backend AI services.
+            </p>
+            <p>
+              The platform provides a structured environment where AI agents can be composed,
+              tested, and deployed with well-defined interfaces. Each agent operates within
+              clearly scoped boundaries, making the system auditable and predictable. The
+              architecture supports dynamic agent discovery, tool registration, and
+              event-driven communication between agents.
+            </p>
+            <p>
+              Built with a focus on production readiness, the marketplace includes monitoring,
+              logging, and tracing capabilities out of the box. Agents can be versioned,
+              rolled back, and A/B tested in production traffic. The platform is designed to
+              run on commodity hardware using local LLMs, reducing operational costs and
+              latency.
+            </p>
+            <div class="tech-stack" aria-label="Technology stack">
+              <span class="tech-pill">LangGraph</span>
+              <span class="tech-pill">LangChain</span>
+              <span class="tech-pill">Local LLMs</span>
+              <span class="tech-pill">Go</span>
+            </div>
+          </div>
           <a class="project-link" href="https://init-store.tech" target="_blank" rel="noopener">Explore platform</a>
         </article>
       </section>
@@ -98,5 +233,72 @@
       </div>
     </footer>
 
+  <!-- Card expand modal -->
+    <div id="card-modal" class="card-modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-backdrop"></div>
+      <div class="modal-container">
+        <div class="modal-header">
+          <h2 class="modal-title"></h2>
+          <button class="modal-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-body"></div>
+      </div>
+    </div>
+
+    <script>
+      (function() {
+        var modal = document.getElementById('card-modal');
+        if (!modal) return;
+        var titleEl = modal.querySelector('.modal-title');
+        var bodyEl = modal.querySelector('.modal-body');
+        var closeBtn = modal.querySelector('.modal-close');
+        var backdrop = modal.querySelector('.modal-backdrop');
+
+        function openModal(title, html) {
+          titleEl.textContent = title;
+          bodyEl.innerHTML = html;
+          modal.classList.add('is-open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          closeBtn.focus();
+        }
+
+        function closeModal() {
+          modal.classList.remove('is-open');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        // Close on backdrop click, close button, or Escape
+        backdrop.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') closeModal();
+        });
+
+        // Trap focus inside modal when open
+        modal.addEventListener('keydown', function(e) {
+          if (e.key !== 'Tab') return;
+          var focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          if (!focusable.length) return;
+          var first = focusable[0];
+          var last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
+
+        // Wire up expandable cards
+        document.querySelectorAll('[data-expandable]').forEach(function(card) {
+          card.addEventListener('click', function(e) {
+            // Don't open modal if clicking a link or interactive element
+            if (e.target.closest('a, button, .project-link')) return;
+            var title = (this.querySelector('h2') || {}).textContent || '';
+            var full = this.querySelector('.full-content');
+            var html = full ? full.innerHTML : (this.querySelector('p') || {}).innerHTML || '';
+            openModal(title, html);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
