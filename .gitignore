@@ -7,6 +7,9 @@ node_modules/
 *.local
 prompt.txt
 
+# Portfolio source directory (built files are at root)
+portfolio/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
